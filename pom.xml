@@ -21,6 +21,13 @@
         <java.version>17</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -30,9 +37,7 @@
         <dependency>
             <groupId>com.github.juanfernandez</groupId>
             <artifactId>article-generator-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/article-generator-spring-boot-starter-1.0.0.jar</systemPath>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
