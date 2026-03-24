@@ -1,7 +1,7 @@
 article-generator:
   provider: openai # openai | gemini | ollama
   model: gpt-4o
-  openai-api-key: ${OPENAIAPIKEY:}
+  openai-api-key: ${OPENAIAPIKEY:${OPENAI_API_KEY:}}
   site: https://mi-blog.com
   author-username: adminUser
   language: es

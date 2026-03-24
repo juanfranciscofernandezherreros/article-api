@@ -3,6 +3,8 @@ package com.example.articleapi.web;
 import com.github.juanfernandez.article.model.Article;
 import com.github.juanfernandez.article.model.ArticleRequest;
 import com.github.juanfernandez.article.service.ArticleGeneratorService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ public class ArticleController {
     }
 
     @PostMapping("/generate")
-    public Article generate(@RequestBody GenerateArticleInput input) {
+    public Article generate(@Valid @RequestBody GenerateArticleInput input) {
         ArticleRequest request = ArticleRequest.builder()
                 .category(input.category())
                 .subcategory(input.subcategory())
@@ -36,7 +38,7 @@ public class ArticleController {
     }
 
     public record GenerateArticleInput(
-            String category,
+            @NotBlank String category,
             String subcategory,
             String tag,
             String language,

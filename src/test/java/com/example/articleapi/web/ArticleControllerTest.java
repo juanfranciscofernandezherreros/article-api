@@ -16,6 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -68,5 +69,19 @@ class ArticleControllerTest {
         assertThat(sent.getSite()).isEqualTo("https://mi-blog.com");
         assertThat(sent.getAuthorUsername()).isEqualTo("juan");
         assertThat(sent.getAvoidTitles()).isEqualTo(List.of("Introducción a JWT", "JWT para principiantes"));
+    }
+
+    @Test
+    void generateReturnsBadRequestWhenCategoryIsBlank() throws Exception {
+        mockMvc.perform(post("/api/articles/generate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "category": "   "
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(articleGeneratorService);
     }
 }
