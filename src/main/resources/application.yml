@@ -1,0 +1,25 @@
+article-generator:
+  provider: openai # openai | gemini | ollama
+  model: gpt-4o
+  openai-api-key: ${OPENAIAPIKEY:${OPENAI_API_KEY:}}
+  site: https://mi-blog.com
+  author-username: adminUser
+  language: es
+
+# Ejemplo con Gemini
+# article-generator:
+#   provider: gemini
+#   model: gemini-2.0-flash
+#   gemini-api-key: ${GEMINI_API_KEY:}
+#   site: https://mi-blog.com
+#   author-username: adminUser
+#   language: es
+
+# Ejemplo con Ollama
+# article-generator:
+#   provider: ollama
+#   model: llama3
+#   ollama-base-url: http://localhost:11434
+#   site: https://mi-blog.com
+#   author-username: adminUser
+#   language: es
