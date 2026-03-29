@@ -72,6 +72,26 @@ class ArticleControllerTest {
     }
 
     @Test
+    void generateAcceptsParentArticleId() throws Exception {
+        Article article = new Article();
+        article.setTitle("Artículo hijo");
+        article.setSlug("articulo-hijo");
+        article.setAuthor("juan");
+
+        when(articleGeneratorService.generateArticle(any(ArticleRequest.class))).thenReturn(article);
+
+        mockMvc.perform(post("/api/articles/generate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "category": "Spring Boot",
+                                  "parentArticleId": 42
+                                }
+                                """))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void generateReturnsBadRequestWhenCategoryIsBlank() throws Exception {
         mockMvc.perform(post("/api/articles/generate")
                         .contentType(MediaType.APPLICATION_JSON)

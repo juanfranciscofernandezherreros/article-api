@@ -122,7 +122,10 @@ public class ArticleController {
 
             @Schema(description = "Lista de títulos que deben evitarse en la generación para no repetir contenido",
                     example = "[\"Introducción a JWT\", \"JWT para principiantes\"]")
-            List<String> avoidTitles
+            List<String> avoidTitles,
+
+            @Schema(description = "Identificador del artículo padre (para artículos relacionados o series)", example = "42")
+            Long parentArticleId
     ) {
     }
 }
