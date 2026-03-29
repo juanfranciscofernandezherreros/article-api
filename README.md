@@ -82,13 +82,14 @@ Genera un artículo de blog completo usando IA a partir de los parámetros indic
 
 ```json
 {
-  "category":      "string (obligatorio)",
-  "subcategory":   "string (opcional)",
-  "tag":           "string (opcional)",
-  "language":      "string (opcional, código ISO 639-1, p. ej. 'es')",
-  "site":          "string (opcional, URL del blog)",
-  "authorUsername":"string (opcional)",
-  "avoidTitles":   ["string", "..."] 
+  "category":        "string (obligatorio)",
+  "subcategory":     "string (opcional)",
+  "tag":             "string (opcional)",
+  "language":        "string (opcional, código ISO 639-1, p. ej. 'es')",
+  "site":            "string (opcional, URL del blog)",
+  "authorUsername":  "string (opcional)",
+  "avoidTitles":     ["string", "..."],
+  "parentArticleId": 42
 }
 ```
 
@@ -101,6 +102,7 @@ Genera un artículo de blog completo usando IA a partir de los parámetros indic
 | `site` | `string` | ❌ | URL del sitio web al que pertenece el artículo |
 | `authorUsername` | `string` | ❌ | Nombre de usuario del autor |
 | `avoidTitles` | `string[]` | ❌ | Lista de títulos a evitar para no repetir contenido |
+| `parentArticleId` | `number` | ❌ | Identificador del artículo padre (para artículos relacionados o series) |
 
 #### Respuesta exitosa — `200 OK`
 
