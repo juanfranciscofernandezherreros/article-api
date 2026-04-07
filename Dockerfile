@@ -8,7 +8,9 @@ WORKDIR /app
 # Copy POM first for better layer caching
 COPY pom.xml ./
 
-# Download dependencies (cached unless pom.xml changes)
+# Download dependencies (cached unless pom.xml changes).
+# "|| true" because jitpack.io artifacts may not resolve in go-offline mode;
+# the actual build step will fetch any remaining dependencies.
 RUN mvn dependency:go-offline -B || true
 
 # Copy source and build
