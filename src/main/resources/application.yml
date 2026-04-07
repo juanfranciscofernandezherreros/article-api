@@ -1,3 +1,12 @@
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+
 article-generator:
   provider: openai # openai | gemini | ollama
   model: gpt-4o

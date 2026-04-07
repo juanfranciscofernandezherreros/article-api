@@ -1,5 +1,6 @@
 package com.example.articleapi.web;
 
+import com.example.articleapi.config.SecurityConfig;
 import com.github.juanfernandez.article.model.Article;
 import com.github.juanfernandez.article.model.ArticleRequest;
 import com.github.juanfernandez.article.service.ArticleGeneratorService;
@@ -8,6 +9,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ArticleController.class)
+@Import(SecurityConfig.class)
 class ArticleControllerTest {
 
     @Autowired
