@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 springdoc:
   api-docs:
     path: /v3/api-docs
