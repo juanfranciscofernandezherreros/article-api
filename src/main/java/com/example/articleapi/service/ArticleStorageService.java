@@ -32,25 +32,34 @@ public class ArticleStorageService {
             Path dir = Paths.get(outputPath);
             Files.createDirectories(dir);
 
-            String filename = resolveFilename(article);
+            String filename = resolveFilename(article, dir);
             Path file = dir.resolve(filename);
 
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file.toFile(), article);
             log.info("Article saved to {}", file.toAbsolutePath());
         } catch (IOException e) {
-            log.error("Failed to save article JSON file: {}", e.getMessage(), e);
+            throw new ArticleStorageException("Failed to save article JSON file", e);
         }
     }
 
-    private String resolveFilename(Article article) {
+    private String resolveFilename(Article article, Path dir) {
+        String base = resolveBase(article);
+        String candidate = base + ".json";
+        if (!Files.exists(dir.resolve(candidate))) {
+            return candidate;
+        }
+        return base + "-" + System.currentTimeMillis() + ".json";
+    }
+
+    private String resolveBase(Article article) {
         String slug = article.getSlug();
         if (slug != null && !slug.isBlank()) {
-            return slug + ".json";
+            return slug;
         }
         String title = article.getTitle();
         if (title != null && !title.isBlank()) {
-            return title.toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "") + ".json";
+            return title.toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
         }
-        return "article-" + System.currentTimeMillis() + ".json";
+        return "article-" + System.currentTimeMillis();
     }
 }
