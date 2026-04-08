@@ -1,6 +1,7 @@
 package com.example.articleapi.web;
 
 import com.example.articleapi.config.SecurityConfig;
+import com.example.articleapi.service.ArticleStorageService;
 import com.github.juanfernandez.article.model.Article;
 import com.github.juanfernandez.article.model.ArticleRequest;
 import com.github.juanfernandez.article.service.ArticleGeneratorService;
@@ -34,6 +35,9 @@ class ArticleControllerTest {
     @MockBean
     private ArticleGeneratorService articleGeneratorService;
 
+    @MockBean
+    private ArticleStorageService articleStorageService;
+
     @Test
     void generateBuildsRequestAndReturnsArticle() throws Exception {
         Article article = new Article();
@@ -60,6 +64,8 @@ class ArticleControllerTest {
                 .andExpect(jsonPath("$.title").value("Autenticación JWT en Spring Boot 3: guía práctica"))
                 .andExpect(jsonPath("$.slug").value("autenticacion-jwt-en-spring-boot-3-guia-practica"))
                 .andExpect(jsonPath("$.author").value("juan"));
+
+        verify(articleStorageService).save(article);
 
         ArgumentCaptor<ArticleRequest> captor = ArgumentCaptor.forClass(ArticleRequest.class);
         verify(articleGeneratorService).generateArticle(captor.capture());
