@@ -17,6 +17,7 @@ article-generator:
   site: https://mi-blog.com
   author-username: adminUser
   language: es
+  output-path: src/main/resources/articles
 
 # Ejemplo con Gemini
 # article-generator:

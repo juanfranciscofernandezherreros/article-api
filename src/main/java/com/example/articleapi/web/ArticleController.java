@@ -1,5 +1,6 @@
 package com.example.articleapi.web;
 
+import com.example.articleapi.service.ArticleStorageService;
 import com.github.juanfernandez.article.model.Article;
 import com.github.juanfernandez.article.model.ArticleRequest;
 import com.github.juanfernandez.article.service.ArticleGeneratorService;
@@ -26,9 +27,12 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleGeneratorService articleGeneratorService;
+    private final ArticleStorageService articleStorageService;
 
-    public ArticleController(ArticleGeneratorService articleGeneratorService) {
+    public ArticleController(ArticleGeneratorService articleGeneratorService,
+                             ArticleStorageService articleStorageService) {
         this.articleGeneratorService = articleGeneratorService;
+        this.articleStorageService = articleStorageService;
     }
 
     @Operation(
@@ -97,7 +101,9 @@ public class ArticleController {
                 .avoidTitles(input.avoidTitles())
                 .build();
 
-        return articleGeneratorService.generateArticle(request);
+        Article article = articleGeneratorService.generateArticle(request);
+        articleStorageService.save(article);
+        return article;
     }
 
     @Schema(description = "Parámetros de entrada para la generación de un artículo")
