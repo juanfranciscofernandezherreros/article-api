@@ -41,11 +41,11 @@ public class ArticleStorageService {
     private void saveToDatabase(Article article) {
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(article.getTitle());
-        entity.setSlug(article.getSlug());
+        entity.setSlug(resolveBase(article));
         entity.setAuthor(article.getAuthor());
         entity.setPayload(serializeToJson(article));
         articleRepository.save(entity);
-        log.info("Article saved to database with slug '{}'", article.getSlug());
+        log.info("Article saved to database with slug '{}'", entity.getSlug());
     }
 
     private void saveToFile(Article article) {

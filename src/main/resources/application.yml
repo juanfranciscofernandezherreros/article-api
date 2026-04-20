@@ -3,10 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://ep-twilight-union-a8uuft4r-pooler.eastus2.azure.neon.tech/neonv5?sslmode=require&channel_binding=require
+    url: ${DATABASE_URL:jdbc:postgresql://ep-twilight-union-a8uuft4r-pooler.eastus2.azure.neon.tech/neonv5?sslmode=require&channel_binding=require}
     driver-class-name: org.postgresql.Driver
-    username: neondb_owner
-    password: npg_qaUnwP5TW4zH
+    username: ${DATABASE_USERNAME:neondb_owner}
+    password: ${DATABASE_PASSWORD:npg_qaUnwP5TW4zH}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
