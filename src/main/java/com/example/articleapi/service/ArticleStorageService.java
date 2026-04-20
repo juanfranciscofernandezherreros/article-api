@@ -1,5 +1,8 @@
 package com.example.articleapi.service;
 
+import com.example.articleapi.entity.ArticleEntity;
+import com.example.articleapi.repository.ArticleRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.juanfernandez.article.model.Article;
 import org.slf4j.Logger;
@@ -19,15 +22,33 @@ public class ArticleStorageService {
 
     private final ObjectMapper objectMapper;
     private final String outputPath;
+    private final ArticleRepository articleRepository;
 
     public ArticleStorageService(
             ObjectMapper objectMapper,
-            @Value("${article-generator.output-path:src/main/resources/articles}") String outputPath) {
+            @Value("${article-generator.output-path:src/main/resources/articles}") String outputPath,
+            ArticleRepository articleRepository) {
         this.objectMapper = objectMapper;
         this.outputPath = outputPath;
+        this.articleRepository = articleRepository;
     }
 
     public void save(Article article) {
+        saveToDatabase(article);
+        saveToFile(article);
+    }
+
+    private void saveToDatabase(Article article) {
+        ArticleEntity entity = new ArticleEntity();
+        entity.setTitle(article.getTitle());
+        entity.setSlug(article.getSlug());
+        entity.setAuthor(article.getAuthor());
+        entity.setPayload(serializeToJson(article));
+        articleRepository.save(entity);
+        log.info("Article saved to database with slug '{}'", article.getSlug());
+    }
+
+    private void saveToFile(Article article) {
         try {
             Path dir = Paths.get(outputPath);
             Files.createDirectories(dir);
@@ -39,6 +60,14 @@ public class ArticleStorageService {
             log.info("Article saved to {}", file.toAbsolutePath());
         } catch (IOException e) {
             throw new ArticleStorageException("Failed to save article JSON file", e);
+        }
+    }
+
+    private String serializeToJson(Article article) {
+        try {
+            return objectMapper.writeValueAsString(article);
+        } catch (JsonProcessingException e) {
+            throw new ArticleStorageException("Failed to serialize article to JSON", e);
         }
     }
 

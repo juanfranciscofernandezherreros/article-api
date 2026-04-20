@@ -1,5 +1,20 @@
 server:
-  port: 8083
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-twilight-union-a8uuft4r-pooler.eastus2.azure.neon.tech/neonv5?sslmode=require&channel_binding=require
+    driver-class-name: org.postgresql.Driver
+    username: neondb_owner
+    password: npg_qaUnwP5TW4zH
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  sql:
+    init:
+      mode: never
 
 springdoc:
   api-docs:
@@ -18,6 +33,12 @@ article-generator:
   author-username: adminUser
   language: es
   output-path: src/main/resources/articles
+
+article:
+  run:
+    on-startup: true
+  sql:
+    file-path: classpath:data.sql
 
 # Ejemplo con Gemini
 # article-generator:
